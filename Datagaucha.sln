@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Datagaucha.API", "Datagaucha.API\Datagaucha.API.csproj", "{2773E204-348F-422F-8AFB-D528A5869090}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Datagaucha.Domain", "Datagaucha.Domain\Datagaucha.Domain.csproj", "{B14A131A-D65C-4BBB-8A00-26E232B05030}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Datagaucha.DAL", "Datagaucha.DAL\Datagaucha.DAL.csproj", "{D9BB2E4E-5A0F-43B2-AFAE-C682565B130F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2773E204-348F-422F-8AFB-D528A5869090}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2773E204-348F-422F-8AFB-D528A5869090}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2773E204-348F-422F-8AFB-D528A5869090}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2773E204-348F-422F-8AFB-D528A5869090}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B14A131A-D65C-4BBB-8A00-26E232B05030}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B14A131A-D65C-4BBB-8A00-26E232B05030}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B14A131A-D65C-4BBB-8A00-26E232B05030}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B14A131A-D65C-4BBB-8A00-26E232B05030}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D9BB2E4E-5A0F-43B2-AFAE-C682565B130F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D9BB2E4E-5A0F-43B2-AFAE-C682565B130F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D9BB2E4E-5A0F-43B2-AFAE-C682565B130F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D9BB2E4E-5A0F-43B2-AFAE-C682565B130F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
