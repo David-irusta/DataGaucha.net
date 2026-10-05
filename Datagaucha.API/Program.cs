@@ -87,8 +87,13 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 builder.Services.AddAuthorization();
 
+
+//Inyeccion de dependencia
 builder.Services.AddScoped<Datagaucha.DAL.interfaces.IUnitOfWork,
     Datagaucha.DAL.EntityFramework.EFUnitOfWork>();
+
+builder.Services.AddScoped<JwtTokenGenerator>();
+//
 
 var app = builder.Build();
 

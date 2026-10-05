@@ -9,4 +9,14 @@ public class Image : File
     private int height = 0;
 
     public int Height { get => height; set => height = value; }
+
+    public string? ImageUrl()
+    {
+        return "/image" + this.FileName;
+    }
+
+    public override string QueSoy()
+    {
+        return "Una imagen";
+    }
 }

@@ -3,13 +3,9 @@ using Datagaucha.Domain.Auth;
 using Microsoft.EntityFrameworkCore;
 namespace Datagaucha.DAL.EntityFramework.Auth;
 
-public class EFUserRepository : IUserRepository
+public class EFUserRepository(DatagauchaDbContext dbContext) : IUserRepository
 {
-    private DatagauchaDbContext dbContext;
-    public EFUserRepository(DatagauchaDbContext dbContext)
-    {
-        this.dbContext = dbContext;
-    }
+    private readonly DatagauchaDbContext dbContext = dbContext;
 
     public async Task<bool> Create(User user)
     {
@@ -17,12 +13,9 @@ public class EFUserRepository : IUserRepository
         return true;
     }
 
-    public async Task<User?> GetuserByUserName(string userName)
+    public Task<User?> GetuserByUserName(string userName)
     {
-        List<User> users = await this.dbContext.Users.Where(u => u.UserName.ToUpper().Equals(userName.ToUpper())).ToListAsync();
-
-        if (users != null && users.Count > 0) return users[0];
-
-        return null;
+        return this.dbContext.Users
+            .FirstOrDefaultAsync(u => u.UserName == userName);
     }
 }
