@@ -16,7 +16,7 @@ public class User
 
     private string password = "";
 
-    private string Password { get => password; set => password = value; }
+    public string Password { get => password; set => password = value; }
 
     private Image? image = null;
 

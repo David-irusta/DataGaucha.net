@@ -6,6 +6,9 @@ using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Model;
 using static System.Net.WebRequestMethods;
 using System.Net;
 using Datagaucha.Domain.FileSystem;
+using Microsoft.AspNetCore.Identity.Data;
+using System.Security.Authentication;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Datagaucha.API.Controllers.Auth;
 
@@ -15,11 +18,16 @@ namespace Datagaucha.API.Controllers.Auth;
 public class UserController : ControllerBase{
     private readonly IUnitOfWork dataBase;
     private IWebHostEnvironment env;
+    private JwtTokenGenerator generator;
 
-    public UserController(IUnitOfWork database, IWebHostEnvironment env)
+    public UserController(
+        IUnitOfWork database,
+        IWebHostEnvironment env,
+        JwtTokenGenerator generator)
     {
         this.dataBase = database;
         this.env = env;
+        this.generator = generator;
     }
     [HttpPost]
     public async Task<IActionResult> Create([FromForm] CreateUserRequest request)
@@ -105,5 +113,53 @@ public class UserController : ControllerBase{
         {
             throw new ValidationException("Ya existe un usuario con el nombre " + request.userName);
         }
+    }
+    [HttpPost("login")]
+    public async Task<IActionResult> Login([FromBody] LoginRequest request)
+    {
+        User user = await validationLogin(request);
+
+        string token = this.generator.GenerateToken(user.Id);
+
+        LoginResponse response = new LoginResponse
+        {
+            id = user.Id,
+            token = token,
+            urlAvatar = user.GetAvatarurl(),
+            userName = user.UserName
+        };
+
+        return Ok(new ResponseDTO<LoginResponse>
+        {
+            code = (int)HttpStatusCode.OK,
+            message = "Login exitoso",
+            success = true,
+            payload = response
+        });
+    }
+
+    private async Task<User?> validationLogin(LoginRequest request)
+    {
+        if (String.IsNullOrEmpty(request.UserName))
+        {
+            throw new InvalidCredentialException("Nombre de usuario es un dato obligatorio");
+        }
+
+        if (String.IsNullOrEmpty(request.Password))
+        {
+            throw new InvalidCredentialException("La clave es un dato obligatorio");
+        }
+
+        User? user = await this.dataBase.UserRepository.GetuserByUserName(request.UserName);
+        if (user == null)
+        {
+            throw new InvalidCredentialException("Nombre de usuario o contraseña incorrectos");
+        }
+        if (!user.IsPassword(request.Password))
+        {
+            throw new InvalidCredentialException("Nombre de usuario o contraseña incorrectos");
+        }
+
+        return user;
     }
 }

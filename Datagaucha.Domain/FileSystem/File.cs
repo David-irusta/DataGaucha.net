@@ -1,6 +1,7 @@
+
 namespace Datagaucha.Domain.FileSystem;
 
-public class File
+public abstract class File
 {
     private long id;
 
@@ -17,4 +18,6 @@ public class File
     private string storagePath = string.Empty;
 
     public string StoragePath { get => storagePath; set => storagePath = value; }
+
+    public abstract string QueSoy();
 }
