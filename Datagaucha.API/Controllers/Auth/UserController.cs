@@ -117,7 +117,7 @@ public class UserController : ControllerBase{
     [HttpPost("login")]
     public async Task<IActionResult> Login([FromBody] LoginRequest request)
     {
-        User user = await validationLogin(request);
+        User? user = await validationLogin(request);
 
         string token = this.generator.GenerateToken(user.Id);
 

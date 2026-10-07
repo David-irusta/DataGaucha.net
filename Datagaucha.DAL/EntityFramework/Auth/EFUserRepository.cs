@@ -13,6 +13,11 @@ public class EFUserRepository(DatagauchaDbContext dbContext) : IUserRepository
         return true;
     }
 
+    public async Task<User?> GetuserById(long userId)
+    {
+        return await this.dbContext.Users.FindAsync(userId);
+    }
+
     public Task<User?> GetuserByUserName(string userName)
     {
         return this.dbContext.Users

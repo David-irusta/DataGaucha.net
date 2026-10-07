@@ -3,8 +3,15 @@ using Datagaucha.DAL.interfaces;
 using Datagaucha.Domain.Exceptions;
 using Datagaucha.Domain.FileSystem;
 using Microsoft.AspNetCore.Authorization;
+using Datagaucha.API.Utils;
+using Datagaucha.Domain.Post;
+using Datagaucha.Domain.Auth;
+using static System.Net.WebRequestMethods;
+using System.Collections.Generic;
+using Datagaucha.API.DTOs.Post;
+using System.Net;
 
-namespace Datagaucha.API.Controllers.Post;
+namespace Datagaucha.API.Controllers;
 
 [ApiController]
 [Route("api/post")]
@@ -14,25 +21,36 @@ public class PostController(IUnitOfWork unitOfWork) : ControllerBase
 
     [Authorize]
     [HttpGet]
-    public async Task<IActionResult> GetPost(, CancellationToken cancellationToken)
+    public async Task<IActionResult> GetPost([FromQuery]GetPostRequest request, CancellationToken cancellationToken)
     {
-        Datagaucha.Domain.FileSystem.File? file = await this.dataBase.FileRepository.GetByName(id);
-        if (file is null)
+        var userId = User.GetUserId();
+
+        User user = await this.dataBase.UserRepository.GetuserById(userId);
+
+        List<Post> posts = await this.dataBase.PostRepository.GetPosts(
+            user,
+            request.currentPage,
+            request.pageSize,
+            request.orderBy,
+            request.orderDirection,
+            request.search
+        );
+        List<PostDTO> postDTOs = new List<PostDTO>();
+        foreach (Post post in posts)
         {
-            throw new BusinessNotFoundException("La imagen no existe en la base de datos");
+            postDTOs.Add(new PostDTO
+            {
+                id = post.Id,
+                userName = post.GetUserName(),
+                content = post.Body,
+                urlImage = post.ImageUrl()
+            });
         }
-
-        string quesoy = file.QueSoy();
-
-		FileStorageService fileStorage = new FileStorageService(this.env);
-        var physicalPath = fileStorage.GetPhysicalPath(file.StoragePath);
-
-        if (string.IsNullOrWhiteSpace(physicalPath) || !System.IO.File.Exists(physicalPath))
-        {
-            throw new BusinessNotFoundException("No se encontró la imagen fisica");
-        }
-
-        var contentType = string.IsNullOrWhiteSpace(file.ContentType) ? "application/octet-stream" : file.ContentType;
-        return PhysicalFile(physicalPath, contentType);
+        return Ok(new ResponseDTO<List<PostDTO>>(){
+            code = (int)HttpStatusCode.OK,
+            message = "Post obtenido",
+            payload = postDTOs,
+            success = true
+        });
     }
 }

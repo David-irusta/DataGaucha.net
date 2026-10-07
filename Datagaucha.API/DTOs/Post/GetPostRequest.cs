@@ -1,8 +1,10 @@
+namespace Datagaucha.API.DTOs.Post;
+
 public class GetPostRequest
 {
-    int currentPage { get; set; }
-    int pageSize { get; set; }
-    string orderBy { get; set; }
-    string orderDirection { get; set; }
-    string search { get; set; }
+    public int currentPage { get; set; } = 1;
+    public int pageSize { get; set; } = 12;
+    public string orderBy { get; set; } = "createdAt";
+    public string orderDirection { get; set; } = "desc";
+    public string search { get; set; } = string.Empty;
 }

@@ -27,7 +27,7 @@ public class ImagesController : ControllerBase
             throw new BusinessNotFoundException("La imagen no existe en la base de datos");
         }
 
-        string quesoy = file.QueSoy();
+        string? quesoy = file.ImageUrl();
 
 		FileStorageService fileStorage = new FileStorageService(this.env);
         var physicalPath = fileStorage.GetPhysicalPath(file.StoragePath);

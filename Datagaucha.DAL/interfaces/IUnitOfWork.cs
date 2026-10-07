@@ -2,6 +2,7 @@ using Datagaucha.DAL.interfaces.Auth;
 using Datagaucha.DAL.interfaces.FileSystem;
 using Datagaucha.DAL.interfaces.Post;
 using Datagaucha.DAL.interfaces.Social;
+using Datagaucha.Domain.Auth;
 
 namespace Datagaucha.DAL.interfaces;
 

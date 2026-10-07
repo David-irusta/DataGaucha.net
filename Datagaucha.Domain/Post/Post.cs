@@ -17,4 +17,16 @@ public class Post
     private User? user;
 
     public virtual User? User { get => user; set => user = value; }
+
+    public string GetUserName()
+    {
+        if (this.User != null) return this.User.UserName;
+        return "Usuario no encontrado";
+    }
+
+    public string? ImageUrl()
+    {
+        if (this.File != null) return this.File.ImageUrl();
+        return null;
+    }
 }

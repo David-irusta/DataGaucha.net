@@ -19,5 +19,5 @@ public abstract class File
 
     public string StoragePath { get => storagePath; set => storagePath = value; }
 
-    public abstract string QueSoy();
+    public abstract string? ImageUrl();
 }
